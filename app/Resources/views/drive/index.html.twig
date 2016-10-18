@@ -1,0 +1,118 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <div id="files">
+
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="http://cdn.webix.com/edge/webix.css" rel="stylesheet"/>
+    <link href="{{ asset('webix/filemanager.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="http://cdn.webix.com/edge/webix.js"></script>
+     <script src="{{ asset('webix/filemanager.js') }}"></script>
+
+     <script>
+         webix.ready(function () {
+             var fileManager = webix.ui({
+                 view: "filemanager",
+                 id: "files",
+                 handlers: {
+                     "upload": '{{ path('create_file') }}',
+                     "files": '{{ path('data_dyn') }}'
+                     {#"create": '{{ path('create_folder') }}',#}
+                 }
+             });
+
+             var menu = fileManager.getMenu();
+             menu.add({id: "download", icon: "download", value: "Download"});
+
+             fileManager.load('{{ path('get_files') }}');
+
+             //JQuery Event to save folder created
+             fileManager.attachEvent("onBeforeCreateFolder", function(id){
+                 $.ajax({
+                     url:  Routing.generate('create_folder', {folderId: id}),
+                     method: 'POST'
+                 });
+             });
+
+//             fileManager.attachEvent("onBeforeUploadFile", function(targetId){
+//                 $.ajax({
+//                     url: Routing.generate('create_file', {folderId: targetId}),
+//                     method: 'POST'
+//                 });
+//             });
+
+             //JQuery event to rename file or folder
+             fileManager.attachEvent("onBeforeEditStop", function (id, state,editor, view) {
+                 console.log(id);
+                 console.log(state);
+                 console.log(editor);
+                 console.log(view);
+             });
+
+             fileManager.attachEvent("onFolderSelect", function(id){
+                 $.ajax({
+                    url: Routing.generate('get_files', {folderId: id}),
+                    method: 'POST'
+                 });
+             });
+             /*File download on double click/Enter*/
+             fileManager.attachEvent("onBeforeRun",function(id){
+                 download([id]);
+             });
+             /*File download through menu option*/
+             menu.attachEvent("onItemClick", function(id, e, node){
+                 if (id == "download") {
+                     var selectedFiles = fileManager.getActive();
+                     if( typeof selectedFiles === 'string' ) {
+                         selectedFiles = [ selectedFiles ];
+                     }
+                     download(selectedFiles);
+                 }
+             });
+             function download(selectedFiles){
+                 webix.confirm({
+                     text:"Do you want to download this file?",
+                     ok:"Yes",
+                     cancel:"No",
+                     callback:function(result){
+                         for (var i in selectedFiles) {
+                             location.href = Routing.generate('download_file', {fileId: selectedFiles[i]});
+                         }
+                     }
+                 });
+             }
+             /*File deletion*/
+             fileManager.attachEvent("onBeforeDelete", function(id){
+                 $.ajax({
+                     url: Routing.generate('delete_file', {fileId: id}),
+                     method: 'POST'
+                 });
+             });
+             fileManager.attachEvent("onAfterDelete", function(id){
+                 fileManager.clearAll();
+                 fileManager.load('{{ path('get_files') }}');
+             });
+//             fileManager.attachEvent("onFolderSelect", function(id){
+//                 if (id != 455) {
+//                     $.ajax({
+//                         url: Routing.generate('get_files', {folderId: id}),
+//                         method: 'POST',
+//                     }).done(function (data) {
+//                         fileManager.load(data);
+//                     })
+//                 }
+//
+//             });
+         });
+     </script>
+ {% endblock %}

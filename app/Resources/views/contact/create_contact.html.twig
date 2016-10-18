@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>{% trans %}add_contact{% endtrans %}</h1>
+    {{ form_start(contact_form) }}
+    {{ form_row(contact_form.firstName) }}
+    {{ form_row(contact_form.lastName) }}
+    <div class="form-group">
+        {{ form_label(contact_form.titleId) }}
+        <div class="col-sm-10">
+            <div class="input-group">
+                {{ form_widget(contact_form.titleId) }}
+                <span class="input-group-btn">
+    {{ form_widget(contact_form.addTitleButton) }}
+      </span>
+            </div>
+        </div>
+    </div>
+    {{ form_end(contact_form) }}
+    {% set modal_vars = {'title_form': title_form} %}
+    {% include 'Modal/add_title.twig' with modal_vars %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+     <script src="{{ asset('contact/create_contact.js') }}"></script>
+ {% endblock %}

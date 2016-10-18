@@ -1,0 +1,20 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    {{ form_start(title_form, {'action': path('_addTitle'), 'attr' : {'class': 'ajaxForm'}}) }}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">{% trans %}add_title{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                {{ form_widget(title_form) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(title_form.save) }}
+
+            </div>
+        </div>
+    </div>
+    {{ form_end(title_form) }}
+</div>

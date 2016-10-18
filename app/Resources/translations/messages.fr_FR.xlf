@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="client_label">
+                <source>client.label</source>
+                <target>Client</target>
+            </trans-unit>
+            <trans-unit id="country">
+                <source>country</source>
+                <target>Pays</target>
+            </trans-unit>
+            <trans-unit id="title">
+                <source>title</source>
+                <target>Titre</target>
+            </trans-unit>
+            <trans-unit id="add_contact">
+                <source>add_contact</source>
+                <target>Ajouter un contact</target>
+            </trans-unit>
+            <trans-unit id="add_title">
+                <source>add_title</source>
+                <target>Ajouter un titre</target>
+            </trans-unit>
+            <trans-unit id="firstname">
+                <source>firstname</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="add_contact.success">
+                <source>add_contact.success</source>
+                <target>Contact ajouté avec succès</target>
+            </trans-unit>
+            <trans-unit id="add_matter">
+                <source>add_matter</source>
+                <target>Ajouter un dossier</target>
+            </trans-unit>
+            <trans-unit id="add_matter.success">
+                <source>add_matter.success</source>
+                <target>Dossier ajouté avec succès</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

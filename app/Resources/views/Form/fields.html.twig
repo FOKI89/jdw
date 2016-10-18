@@ -1,0 +1,6 @@
+{% block ajax_select_widget %}
+    {% set attr = attr|merge({'data-url': path(ajax_path), 'class': 'ajax-select'}) %}
+
+    {{ block('choice_widget') }}
+
+{% endblock %}
